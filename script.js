@@ -2,9 +2,11 @@ createDom();
 
 for (var arr=[],i=0;i<9;i++) 
     arr[i] = i + 1;
+
 init();
 
 
+//initial random positioning pictures
 function init() {
     arr = shuffle(arr);
     for(i=0; i<9; i++){
@@ -19,6 +21,7 @@ function init() {
     
 }
 
+//after every move clear the divs and put pictures in new order
 function draw(){
     for(i=0; i<9; i++){
         document.getElementById((i+1).toString()).innerHTML = "";
@@ -30,6 +33,7 @@ function draw(){
             document.getElementById((i+1).toString()).appendChild(elem);
         }
     }
+    //checking if puzzle is in right order, if it is, creating "win" span element
     for(i=0; i<9; i++) {
         if(arr[i] != i+1){
             console.log(arr[i], i+1);
@@ -108,6 +112,7 @@ function moveup() {
     }
 }
 
+//shuffle posision of pictures
 function shuffle(array) {
   var tmp, current, top = array.length;
   if(top) while(--top) {
@@ -120,47 +125,26 @@ function shuffle(array) {
 }
 
 
+
 //creating dom, 3x3 table of divs
 function createDom() {
     var wrapper = document.createElement('div');
     wrapper.style.width = "600px";
     wrapper.style.height = "600px";
-    var row1 = document.createElement('div');
-    row1.style.height = '33%';
-    row1.setAttribute('id', 'row1');
-    for(var i = 0; i < 3; i++){
-        var tmp = document.createElement('div');
-        tmp.setAttribute('id', (1+i).toString());
-        tmp.style.width = "33%";
-        tmp.style.height = '100%';
-        tmp.style.float = "left";
-        row1.appendChild(tmp);
+    for(var i = 1; i <= 3; i++){
+        var row = document.createElement('div');
+        row.style.height = '33%';
+        row.setAttribute('id', 'row' + (i).toString());
+        for(var j = 1; j <= 3; j++){
+            var tmp = document.createElement('div');
+            tmp.setAttribute('id', (j+((i-1)*3)).toString());
+            tmp.style.width = "33%";
+            tmp.style.height = '100%';
+            tmp.style.float = "left";
+            row.appendChild(tmp);
+            wrapper.appendChild(row);
+        }
     }
-    var row2 = document.createElement('div');
-    row2.style.height = '33%';
-    row2.setAttribute('id', 'row2');
-    for(var i = 0; i < 3; i++){
-        var tmp = document.createElement('div');
-        tmp.setAttribute('id', (4+i).toString());
-        tmp.style.width = "33%";
-        tmp.style.height = '100%';
-        tmp.style.float = "left";
-        row2.appendChild(tmp);
-    }
-    var row3 = document.createElement('div');
-    row3.style.height = '33%';
-    row3.setAttribute('id', 'row3');
-    for(var i = 0; i < 3; i++){
-        var tmp = document.createElement('div');
-        tmp.setAttribute('id', (7+i).toString())
-        tmp.style.width = "33%";
-        tmp.style.height = '100%';
-        tmp.style.float = "left";;
-        row3.appendChild(tmp);
-    }
-    wrapper.appendChild(row1);
-    wrapper.appendChild(row2);
-    wrapper.appendChild(row3);
     document.body.appendChild(wrapper);
 }
 
